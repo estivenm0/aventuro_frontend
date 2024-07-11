@@ -3,10 +3,9 @@ import axios from 'axios';
 
 const client = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
-  // withCredentials: true,
   headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
+        "Content-Type": "application/json",
+        "Accept": "application/json",
   },
 });
 
@@ -23,28 +22,18 @@ client.interceptors.request.use(
     }
   );
 
+export default client;
 
 
-const csrf = ()=> client.get('/sanctum/csrf-cookie');
 
 
+export const getPackages = () => client.get('/api/v1/packages');
 
-export const login = (credentials) => {
-  csrf();
-  client.post('/login', credentials);
-}
+export const getBookings = () => client.get('/api/v1/bookings');
 
-export const logout = () => {
-  csrf();
-  client.post('/logout');
-}
+export const createBookings = (booking) => client.post('/api/v1/bookings', booking);
 
-export const register = (user) => {
-  csrf();
-  client.post('/register', user);
-}
-
-export const packages = () => client.get('/api/v1/packages');
+export const create = () => client.get('/api/v1/bookings');
 
 
 

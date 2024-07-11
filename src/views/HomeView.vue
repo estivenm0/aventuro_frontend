@@ -1,6 +1,8 @@
 <script setup>
 import PackageItem from '@/components/items/PackageItem.vue';
+
 import { RouterLink } from 'vue-router';
+
 
 </script>
 
@@ -9,15 +11,15 @@ import { RouterLink } from 'vue-router';
     <div class="bg-pattern">
         <header >
             <div class="max-w-screen-xl px-4 py-4 mx-auto sm:px-7">
-                <div class="flex justify-center items-center  gap-4 md:gap-4">
-                    <div class="flex col-span-12 md:col-span-4 mx-auto text-5xl font-bold">                    
+                <div class="flex items-center justify-center gap-4 md:gap-4">
+                    <div class="flex col-span-12 mx-auto text-5xl font-bold md:col-span-4">                    
                             Aventuro
                     </div>
                 </div>
             </div>
         </header>
         <section>
-            <div class="flex flex-col max-w-screen-xl gap-10 px-4  mx-auto sm:px-7 py-5">
+            <div class="flex flex-col max-w-screen-xl gap-10 px-4 py-5 mx-auto sm:px-7">
                 <h1 data-aos="fade-up" data-aos-delay="500" class="flex flex-col text-2xl text-center md:text-6xl">
                     <span>Explore Beyond the Horizon</span>
                 </h1>
@@ -25,14 +27,14 @@ import { RouterLink } from 'vue-router';
         </section>
     </div>
     <section class="bg-[radial-gradient(145.05%_100%_at_50%_0%,#1D2B41_0%,#020509_57.38%,#0F1A29_88.16%)]">
-        <div class="flex flex-col max-w-screen-xl  py-14 mx-auto px-10">
+        <div class="flex flex-col max-w-screen-xl px-10 mx-auto py-14">
             <h2 class="flex flex-col pb-5 text-2xl font-bold text-center text-white md:text-6xl">
                 Our Packages
             </h2>
             <span class="text-white pb-10 max-w-[600px] mx-auto text-center block ">
                 Discover a world of adventure with our curated travel packages. Whether you seek a tranquil beach retreat, an exhilarating mountain trek, or a cultural experience, we have the perfect package. 
             </span>
-            <div class="flex flex-wrap gap-4 justify-center">
+            <div class="flex flex-wrap justify-center gap-4">
             
                     <PackageItem/>                
                     <PackageItem/>                

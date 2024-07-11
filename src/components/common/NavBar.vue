@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import DropDown from './DropDown.vue';
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
+
+const {token} = storeToRefs(useAuthStore());
 </script>
 
 <template>
@@ -20,7 +24,7 @@ import DropDown from './DropDown.vue';
                     </RouterLink>
                 </div>
                 <div class="flex items-center justify-end gap-3">
-                    <template v-if="false">
+                    <template v-if="!token">
                         <RouterLink to="/register"
                             class="items-center justify-center px-3 py-2 text-sm font-semibold text-gray-900 transition-all duration-150 bg-white shadow-sm rounded-xl ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:inline-flex">
                             Register

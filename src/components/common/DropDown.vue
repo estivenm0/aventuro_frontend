@@ -1,32 +1,32 @@
 <template>
-    <div class="group relative cursor-pointer py-2">
+    <div class="relative py-2 cursor-pointer group">
 
-        <div class="flex items-center justify-between space-x-5 bg-indigo-600 px-2 rounded-sm ">
-            <a class="menu-hover my-1 text-base font-medium text-gray-200 lg:mx-4">
+        <div class="flex items-center justify-between px-2 space-x-5 bg-indigo-600 rounded-sm ">
+            <a class="my-1 text-base font-medium text-gray-200 menu-hover lg:mx-4">
                 User
             </a>
             <span>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="h-6 w-6">
+                    stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                 </svg>
             </span>
         </div>
 
         <div
-            class="invisible absolute z-50 flex w-full flex-col bg-indigo-100 py-1 px-4 text-gray-800 shadow-xl group-hover:visible">
+            class="absolute z-50 flex flex-col invisible w-full px-4 py-1 text-gray-800 bg-indigo-100 shadow-xl group-hover:visible">
 
-            <RouterLink to="/profile" class="my-2 block border-b border-gray-100  font-semibold text-gray-500 hover:text-black md:mx-2">
+            <RouterLink to="/profile" class="block my-2 font-semibold text-gray-500 border-b border-gray-100 hover:text-black md:mx-2">
                 Profile
             </RouterLink>
             <hr>
-            <RouterLink to="/bookings" class="my-2 block border-b border-gray-100  font-semibold text-gray-500 hover:text-black md:mx-2">
+            <RouterLink to="/bookings" class="block my-2 font-semibold text-gray-500 border-b border-gray-100 hover:text-black md:mx-2">
                 Bookings
             </RouterLink>
             <hr>
-            <RouterLink to="/profile" class="my-2 block border-b border-gray-100  font-semibold text-red-500 hover:text-red-700 md:mx-2">
+            <button @click="handleLogout()" class="block my-2 font-semibold text-red-500 border-b border-gray-100 hover:text-red-700 md:mx-2">
                 Log out
-            </RouterLink>
+            </button>
 
 
         </div>
@@ -34,7 +34,9 @@
 </template>
 
 <script setup>
+import { useAuthStore } from '@/stores/auth';
 import { RouterLink } from 'vue-router';
 
+const {handleLogout} = useAuthStore();
 
 </script>
