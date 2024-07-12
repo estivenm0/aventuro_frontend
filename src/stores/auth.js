@@ -5,7 +5,7 @@ import { useToast } from 'vue-toastification'
 
 
 
-const url = '/api'
+const url = '/api/v1'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -31,10 +31,11 @@ export const useAuthStore = defineStore('auth', {
       try{
         await client.put(`${url}/users`, this.authUser)
         this.toast.success('user update')
+        
       }catch(error){
         if (error.response?.status === 422) {
           this.authErrors = error.response.data.errors
-          this.toast.success('user no update')
+          this.toast.error('user no update')
         }
       }
         

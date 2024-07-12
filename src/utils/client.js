@@ -26,13 +26,3 @@ export default client;
 
 
 
-
-export const getPackages = () => client.get('/api/v1/packages');
-
-
-export const createBookings = (booking) => client.post('/api/v1/bookings', booking);
-
-
-
-
-

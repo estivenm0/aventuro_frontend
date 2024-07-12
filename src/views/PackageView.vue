@@ -1,5 +1,28 @@
 <script setup>
-import { RouterLink } from 'vue-router';
+import LoadingC from '@/components/common/LoadingC.vue';
+import router from '@/router';
+import { useAuthStore } from '@/stores/auth';
+import client from '@/utils/client';
+import { storeToRefs } from 'pinia';
+import { ref, watch } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
+
+const {token} = storeToRefs(useAuthStore())
+
+const route = useRoute()
+
+const pack = ref();
+
+watch(
+  () => route.params.slug,
+  async (newSlug) => {
+    try {
+        let res = await client.get(`/api/v1/packages/${newSlug}`);
+        pack.value = res.data.package
+    } catch (error) {
+        if(error.response.status === 404) router.push('/404')
+    }
+  }, {immediate: true})
 
 
 </script>
@@ -7,22 +30,26 @@ import { RouterLink } from 'vue-router';
 <template>
     <div class="py-2 ">
         <div class="max-w-6xl px-4 mx-auto sm:px-6 lg:px-8">
-            <div class="flex flex-col -mx-4 md:flex-row">
+            <div class="flex flex-col -mx-4 md:flex-row" v-if="pack">
                 <div class="px-4 md:flex-1">
                     <div class="h-[460px] rounded-lg  ">
                         <img class="object-cover w-full h-full rounded-lg"
-                            src="https://cdn.pixabay.com/photo/2020/05/22/17/53/mockup-5206355_960_720.jpg"
+                            :src="pack.image"
                             alt="Product Image">
                     </div>
                 </div>
-                <div class="px-4 md:flex-1">
-                    <h1 class="mb-2 text-2xl font-bold text-gray-800 ">Product Name</h1>
+                <div class="px-4 py-1 md:flex-1">
+                    <span class="inline-block px-4 py-1 mx-1 text-xs font-semibold tracking-wide text-indigo-800 uppercase bg-indigo-200 rounded-full"> 
+                         {{ pack.category }}
+                    </span>
+                    <span class="inline-block px-4 py-1 mx-1 text-xs font-semibold tracking-wide text-red-800 uppercase bg-red-200 rounded-full"> 
+                         With Discount: {{ pack.offer.discount }}%
+                    </span>
+                    <h1 class="mb-2 text-2xl font-bold text-gray-800 ">
+                        {{ pack.title }}
+                    </h1>
                     <p class="mt-2 text-gray-600 text-md">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                        sed ante justo. Integer euismod libero id mauris malesuada tincidunt. Vivamus commodo nulla ut
-                        lorem rhoncus aliquet. Duis dapibus augue vel ipsum pretium, et venenatis sem blandit. Quisque
-                        ut erat vitae nisi ultrices placerat non eget velit. Integer ornare mi sed ipsum lacinia, non
-                        sagittis mauris blandit. Morbi fermentum libero vel nisl suscipit, nec tincidunt mi consectetur.
+                        {{ pack.description }}
                     </p>
                     <div>
                         <ul class="my-3 space-y-3 font-medium">
@@ -44,27 +71,35 @@ import { RouterLink } from 'vue-router';
                     <div class="flex flex-wrap mb-4 ">
                         <div class="mr-4">
                             <span class="font-bold text-gray-700 ">Destination: </span>
-                            <span class="text-gray-600 "> alibaba</span>
+                            <span class="text-gray-600 "> {{ pack.destination }}</span>
                         </div>
                         <div class="mr-4">
                             <span class="font-bold text-gray-700 ">Duration: </span>
-                            <span class="text-gray-600 "> 10</span>
+                            <span class="text-gray-600 "> {{ pack.duration }}</span>
                         </div>
                         <div class="mr-4">
                             <span class="font-bold text-gray-700 ">Price: </span>
-                            <span class="text-gray-600 "> $29.99</span>
+                            <span class="text-gray-600 "> $ {{ pack.price }}</span>
                         </div>
                     </div>
 
                     <div class="w-1/2 px-2 ">
-                        <RouterLink :to="{name: 'bookings.create', params: { package: 2 }}"
-                            class="w-full block text-center px-4 py-2 font-bold text-white bg-indigo-600 rounded-full hover:bg-indigo-800">
+                        <RouterLink :to="{name:'bookings.create', params: { package: 2 }}" v-if="token" 
+                            class="block w-full px-4 py-2 font-bold text-center text-white bg-indigo-600 rounded-full hover:bg-indigo-800">
+                            Reserve
+                        </RouterLink >
+                        <RouterLink :to="{name:'login'}" v-else
+                            class="block w-full px-4 py-2 font-bold text-center text-white bg-indigo-600 rounded-full hover:bg-indigo-800">
                             Reserve
                         </RouterLink >
                     </div>
 
                 </div>
             </div>
+            <div v-else class="flex justify-center">
+                <LoadingC/>
+            </div>
+                
         </div>
     </div>
 </template>
