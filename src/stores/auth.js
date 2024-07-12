@@ -1,13 +1,17 @@
 import router from '@/router'
-import client  from '@/utils/api'
+import client  from '@/utils/client'
 import { defineStore } from 'pinia'
+import { useToast } from 'vue-toastification'
 
-const url = '/api/v1'
+
+
+const url = '/api'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     authUser: JSON.parse(localStorage.getItem('user') || null),
     authErrors: [],
+    toast: useToast(),
     authToken: localStorage.getItem('token') || null,
 
   }),
@@ -18,14 +22,21 @@ export const useAuthStore = defineStore('auth', {
   },
   actions: {
     async getUser() {
-      await this.getCsrf()
       const data = await client.get(`${url}/users`)
       this.authUser = data.data
     },
 
-    async updateUser(user) {
-        await client.post(`${url}/users`, user)
-        .then(() => this.getUser())
+    async updateUser() {
+      this.authErrors = []
+      try{
+        await client.put(`${url}/users`, this.authUser)
+        this.toast.success('user update')
+      }catch(error){
+        if (error.response?.status === 422) {
+          this.authErrors = error.response.data.errors
+          this.toast.success('user no update')
+        }
+      }
         
     },
 

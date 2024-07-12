@@ -9,6 +9,8 @@ import ProfileView from '@/views/ProfileView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import CreateBookingView from '@/views/CreateBookingView.vue'
+import { useAuthStore } from '@/stores/auth'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,7 +22,8 @@ const router = createRouter({
         {
           path: "",
           name: "home",
-          component: HomeView
+          component: HomeView,
+          meta: { noAuth: true }
         },
         {
           path: "/packages",
@@ -35,29 +38,34 @@ const router = createRouter({
         {
           path: "/bookings",
           name: "bookings",
-          component: BookingsView
+          component: BookingsView,
+          meta: { requiresAuth: true }
         },
         {
           path: "/bookings/create/:package",
           name: "bookings.create",
-          component: CreateBookingView
+          component: CreateBookingView,
+          meta: { requiresAuth: true }
         },
         {
           path: "/profile",
           name: "profile",
-          component: ProfileView
+          component: ProfileView,
+          meta: { requiresAuth: true }
         },
       ]
     },
     {
       path: '/login',
       name: 'login',
-      component: LoginView
+      component: LoginView,
+      meta: { noAuth: true }
     },
     {
       path: '/register',
       name: 'register',
-      component: RegisterView
+      component: RegisterView,
+      meta: { noAuth: true }
     },
     {
       path: '/:catchAll(.*)', 
@@ -65,7 +73,6 @@ const router = createRouter({
       component: E404View,
     },
 
-    
     // {
       // path: '/about',
       // name: 'about',
@@ -75,6 +82,17 @@ const router = createRouter({
     //   component: () => import('../views/AboutView.vue')
     // }
   ]
+})
+
+router.beforeEach((to, from) => {
+ const {token}=useAuthStore();
+  
+  // explicitly return false to cancel the navigation
+  if(to.meta.requiresAuth && !token) return '/login'
+
+   if(to.meta.noAuth && token) return '/packages'
+
+  return true
 })
 
 export default router

@@ -1,3 +1,18 @@
+<script setup>
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
+import ErrorsF from '../common/ErrorsF.vue';
+
+const {user, errors} = storeToRefs(useAuthStore())
+
+const {getUser, updateUser} = useAuthStore()
+ 
+ onMounted(()=>{
+    getUser()
+ })
+</script>
+
 <template>
     <section class="py-4 my-auto ">
         <div class="lg:w-[80%] md:w-[90%] xs:w-[96%] mx-auto flex gap-4">
@@ -9,18 +24,19 @@
                         class="mb-2 font-serif font-extrabold text-indigo-700 lg:text-3xl md:text-2xl sm:text-xl xs:text-xl">
                         Profile
                     </h1>
-                    <form>
+                    <ErrorsF :errors="errors"/>
+                    <form @submit.prevent="updateUser()" >
 
                         <div class="flex flex-col justify-center w-full gap-2 lg:flex-row md:flex-col sm:flex-col">
                             <div class="w-full mb-4 lg:mt-6">
                                 <label for="" class="text-indigo-700 ">Name</label>
-                                <input type="text"
+                                <input type="text" v-model="user.name"
                                     class="w-full p-3 mt-2 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-200"
                                     placeholder="Name">
                             </div>
                             <div class="w-full mb-4 lg:mt-6">
                                 <label for="" class="text-indigo-700 ">Email</label>
-                                <input type="email"
+                                <input type="email"  v-model="user.email"
                                     class="w-full p-3 mt-2 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-200"
                                     placeholder="Email">
                             </div>
@@ -29,13 +45,13 @@
                         <div class="flex flex-col justify-center w-full gap-2 lg:flex-row md:flex-col sm:flex-col">
                             <div class="w-full mb-4 lg:mt-6">
                                 <label for="" class="text-indigo-700 ">Phone</label>
-                                <input type="number"
+                                <input type="text"  v-model="user.phone"
                                     class="w-full p-3 mt-2 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-200"
                                     placeholder="Phone">
                             </div>
                             <div class="w-full mb-4 lg:mt-6">
                                 <label for="" class="text-indigo-700 ">Address</label>
-                                <input type="text"
+                                <input type="text"  v-model="user.address"
                                     class="w-full p-3 mt-2 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-200"
                                     placeholder="Address">
                             </div>
@@ -51,6 +67,4 @@
     </section>
 </template>
 
-<script setup>
 
-</script>

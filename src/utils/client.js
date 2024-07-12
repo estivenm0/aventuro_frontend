@@ -29,11 +29,9 @@ export default client;
 
 export const getPackages = () => client.get('/api/v1/packages');
 
-export const getBookings = () => client.get('/api/v1/bookings');
 
 export const createBookings = (booking) => client.post('/api/v1/bookings', booking);
 
-export const create = () => client.get('/api/v1/bookings');
 
 
 
