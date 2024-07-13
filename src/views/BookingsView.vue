@@ -15,13 +15,12 @@ const bookings = reactive({
 const route = useRoute()
 
 
-watch(()=> route.query.page, async (newPage) => {
+watch(()=> route.query, async (newQ) => {
     let res = await client.get('/api/v1/bookings', { 
         params:{
-            page: newPage ? newPage : 1 
+            page: newQ.page ? newQ.page : 1 
         }
     });
-
     Object.assign(bookings, res.data);
     console.log(bookings)
     

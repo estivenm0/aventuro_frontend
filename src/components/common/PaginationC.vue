@@ -48,7 +48,7 @@ watch(() => route.query.page, (newPage) => {
             {{ parseFloat(pages.current) + 1 }}
         </RouterLink>
 
-        <RouterLink :to="pages.next" 
+        <RouterLink :to="pages.next" v-if="pages.current < meta.last_page"
             class="flex justify-end w-full p-4 text-base text-gray-600 bg-white border-t border-b border-r rounded-r-xl hover:bg-indigo-200">
             <svg width="9" fill="currentColor" height="8" class="" viewBox="0 0 1792 1792"
                 xmlns="http://www.w3.org/2000/svg">

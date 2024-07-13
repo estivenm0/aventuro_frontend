@@ -1,21 +1,40 @@
 <script setup>
-import PaginationC from '@/components/common/PaginationC.vue'
 import router from '@/router';
-import { reactive } from 'vue';
-import { RouterLink } from 'vue-router';
+import { useCategoryStore } from '@/stores/category';
+import { onMounted, reactive, watch } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
+
+
+const c = useCategoryStore()
 
 const filters = reactive({
     q: '',
     category: '',
+    page: '',
+})
+
+const route = useRoute()
+
+watch(()=>route.query, (newQ)=>{
+  filters.q = newQ.q
+  filters.page = newQ.page
+  filters.category = newQ.categoryId
 })
 
 const search = ()=>{
     router.push({
         path: '/packages',
         query: {
-        q: filters.q
-    }})
-} 
+        pages: filters.page,
+        q: filters.q,
+        categoryId: filters.category
+        }
+  })
+}
+
+onMounted(()=>{
+  c.getCategories()
+})
 </script>
 
 <template>
@@ -50,66 +69,25 @@ const search = ()=>{
               <div class="flex flex-col gap-6">
                 <p class="font-semibold">Categories</p>
                 <div class="flex flex-wrap items-center gap-2">
-                  <a href="#" class="flex gap-3 rounded-md bg-[#f2f2f7] p-3 font-semibold">
+                  <template v-for="category, index in c.categories" v-bind:key="index" >
+                    <button type="button" class="flex gap-3 rounded-md bg-[#f2f2f7] p-3 font-semibold" :class="filters.category === category.id ? 'bg-red-500': ''"
+                    @click="()=>{ 
+                      filters.category = category.id 
+                      search()
+                      }">
                     <img
                       src="https://assets.website-files.com/6458c625291a94a195e6cf3a/64b7a3a33cd5dc368f46daab_design.svg"
                       alt="" class="inline-block" />
-                    <p>Design</p>
-                  </a>
-                  <a href="#" class="flex gap-3 rounded-md bg-[#f2f2f7] p-3 font-semibold">
-                    <img
-                      src="https://assets.website-files.com/6458c625291a94a195e6cf3a/64b7a3a33cd5dc368f46daae_illustration.svg"
-                      alt="" class="inline-block" />
-                    <p>Illustrations</p>
-                  </a>
-                  <a href="#" class="flex gap-3 rounded-md bg-[#f2f2f7] p-3 font-semibold">
-                    <img
-                      src="https://assets.website-files.com/6458c625291a94a195e6cf3a/64b7a3a33cd5dc368f46daad_icons.svg"
-                      alt="" class="inline-block" />
-                    <p>Icons</p>
-                  </a>
-                  <a href="#" class="flex gap-3 rounded-md bg-[#f2f2f7] p-3 font-semibold">
-                    <img
-                      src="https://assets.website-files.com/6458c625291a94a195e6cf3a/64b7a3a33cd5dc368f46daaf_plugins.svg"
-                      alt="" class="inline-block" />
-                    <p>Plugins</p>
-                  </a>
-                  <a href="#" class="flex gap-3 rounded-md bg-[#f2f2f7] p-3 font-semibold">
-                    <img
-                      src="https://assets.website-files.com/6458c625291a94a195e6cf3a/64b7a3a33cd5dc368f46daac_color%20palette.svg"
-                      alt="" class="inline-block" />
-                    <p>Color Palette</p>
-                  </a>
-                </div>
-              </div>
-              <!-- Divider -->
-              <div class="mb-6 mt-6 h-px w-full bg-[#d9d9d9]"></div>
-              <!-- FIlter One -->
-              <div class="flex flex-col gap-6">
-                <div
-                  class="flex cursor-pointer items-center justify-between py-4 [border-top:1px_solid_rgba(0,_0,_0,_0)] md:py-0">
-                  <p class="font-semibold">FIlter One</p>
-                  <a href="#" class="inline-block text-sm text-black">
-                    <p>Clear</p>
-                  </a>
-                </div>
-                <div class="flex flex-col gap-3">
-                  <label class="flex items-center text-sm font-medium">
-                    <div class="mr-3 h-5 w-5 cursor-pointer rounded-sm border border-solid bg-[#f2f2f7]"></div>
-                    <span class="inline-block cursor-pointer" for="Filter-One-Option-1">Option One</span>
-                  </label>
+                    <p>{{ category.name }}</p>
+                  </button> 
+                  </template>
+                             
                 </div>
               </div>
             </form>
           </div>
           <!-- Decor -->
-          <div class="w-full [border-left:1px_solid_rgb(217,_217,_217)]">
-            <div class="flex flex-wrap gap-2 ">
-                <slot/>
-            </div>
-            <PaginationC/>
-
-          </div>
+          <slot/>
           
         </div>
       </div>

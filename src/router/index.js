@@ -42,7 +42,7 @@ const router = createRouter({
           meta: { requiresAuth: true }
         },
         {
-          path: "/bookings/create/:package",
+          path: "/bookings/create/:slug",
           name: "bookings.create",
           component: CreateBookingView,
           meta: { requiresAuth: true }

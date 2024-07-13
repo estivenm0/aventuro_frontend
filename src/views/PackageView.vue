@@ -42,7 +42,7 @@ watch(
                     <span class="inline-block px-4 py-1 mx-1 text-xs font-semibold tracking-wide text-indigo-800 uppercase bg-indigo-200 rounded-full"> 
                          {{ pack.category }}
                     </span>
-                    <span class="inline-block px-4 py-1 mx-1 text-xs font-semibold tracking-wide text-red-800 uppercase bg-red-200 rounded-full"> 
+                    <span class="inline-block px-4 py-1 mx-1 text-xs font-semibold tracking-wide text-red-800 uppercase bg-red-200 rounded-full" v-if="pack.priced" > 
                          With Discount: {{ pack.offer.discount }}%
                     </span>
                     <h1 class="mb-2 text-2xl font-bold text-gray-800 ">
@@ -52,7 +52,7 @@ watch(
                         {{ pack.description }}
                     </p>
                     <div>
-                        <ul class="my-3 space-y-3 font-medium">
+                        <ul class="my-3 space-y-3 font-medium" v-for="item, index in pack.items" v-bind:key="index">
                             <li class="flex items-start lg:col-span-1">
                                 <div class="flex-shrink-0">
                                     <svg class="w-5 h-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20">
@@ -62,7 +62,7 @@ watch(
                                     </svg>
                                 </div>
                                 <p class="ml-3 leading-5 text-gray-800">
-                                    Build functional APIs with zero coding.
+                                    {{ item.name }}
                                 </p>
                             </li>
                         </ul>
@@ -80,11 +80,12 @@ watch(
                         <div class="mr-4">
                             <span class="font-bold text-gray-700 ">Price: </span>
                             <span class="text-gray-600 "> $ {{ pack.price }}</span>
+                            <span class="text-red-600 " v-if="pack.priced">🎁 $ {{ parseInt(pack.priced) }}</span>
                         </div>
                     </div>
 
                     <div class="w-1/2 px-2 ">
-                        <RouterLink :to="{name:'bookings.create', params: { package: 2 }}" v-if="token" 
+                        <RouterLink :to="{name:'bookings.create', params: { slug: pack.slug }}" v-if="token" 
                             class="block w-full px-4 py-2 font-bold text-center text-white bg-indigo-600 rounded-full hover:bg-indigo-800">
                             Reserve
                         </RouterLink >
