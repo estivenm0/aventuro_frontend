@@ -3,8 +3,9 @@ import PaginationC from '@/components/common/PaginationC.vue';
 import LoadingC from '@/components/common/LoadingC.vue';
 import client from '@/utils/client';
 import BookingItem from '@/components/items/BookingItem.vue'
-import { reactive, watch } from 'vue';
+import { onMounted, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { useFilterStore } from '@/stores/filter';
 
 const bookings = reactive({
     list: {},
@@ -13,7 +14,7 @@ const bookings = reactive({
 })
 
 const route = useRoute()
-
+const filter =useFilterStore()
 
 watch(()=> route.query, async (newQ) => {
     let res = await client.get('/api/v1/bookings', { 
@@ -22,10 +23,12 @@ watch(()=> route.query, async (newQ) => {
         }
     });
     Object.assign(bookings, res.data);
-    console.log(bookings)
     
 }, {immediate: true})
 
+onMounted(()=>{
+  filter.queries.page= 1; 
+})
 </script>
 
 <template>

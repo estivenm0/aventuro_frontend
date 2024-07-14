@@ -1,8 +1,17 @@
 <script setup>
 import PackageItem from '@/components/items/PackageItem.vue';
+import client from '@/utils/client';
+import { onMounted, ref } from 'vue';
 
 import { RouterLink } from 'vue-router';
 
+const packs = ref([])
+
+
+onMounted(async()=>{
+    let res = await client.get('/api/v1/packages');
+    packs.value = res.data.list.slice(0, 3);
+})
 
 </script>
 
@@ -36,10 +45,9 @@ import { RouterLink } from 'vue-router';
             </span>
             <div class="flex flex-wrap justify-center gap-4">
             
-                    <PackageItem/>                
-                    <PackageItem/>                
-                    <PackageItem/>
-                    <PackageItem/>
+                <template v-for="pack, index in packs" v-bind:key="index" >
+                    <PackageItem :pack/>                
+                </template>
               
             </div>
             <RouterLink to="/packages"

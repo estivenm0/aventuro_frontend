@@ -30,12 +30,12 @@ export const useAuthStore = defineStore('auth', {
       this.authErrors = []
       try{
         await client.put(`${url}/users`, this.authUser)
-        this.toast.success('user update')
+        this.toast.success('User updated')
         
       }catch(error){
         if (error.response?.status === 422) {
           this.authErrors = error.response.data.errors
-          this.toast.error('user no update')
+          this.toast.error('User no Update')
         }
       }
         

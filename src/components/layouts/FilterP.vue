@@ -1,35 +1,18 @@
 <script setup>
-import router from '@/router';
-import { useCategoryStore } from '@/stores/category';
-import { onMounted, reactive, watch } from 'vue';
-import { RouterLink, useRoute } from 'vue-router';
+import { useFilterStore } from '@/stores/filter';
+import { onMounted } from 'vue';
+import { RouterLink } from 'vue-router';
 
 
-const c = useCategoryStore()
+const c = useFilterStore()
 
-const filters = reactive({
-    q: '',
-    category: '',
-    page: '',
-})
 
-const route = useRoute()
 
-watch(()=>route.query, (newQ)=>{
-  filters.q = newQ.q
-  filters.page = newQ.page
-  filters.category = newQ.categoryId
-})
+const filters = useFilterStore()
 
 const search = ()=>{
-    router.push({
-        path: '/packages',
-        query: {
-        pages: filters.page,
-        q: filters.q,
-        categoryId: filters.category
-        }
-  })
+   filters.queries.page = 1
+    filters.navigate()
 }
 
 onMounted(()=>{
@@ -60,7 +43,7 @@ onMounted(()=>{
                 </RouterLink>
               </div>
               <!-- Search input -->
-              <input type="text" v-model="filters.q"
+              <input type="text" v-model="filters.queries.q"
               @input="search()"
                 class="mb-10 block h-9 min-h-[44px] w-full rounded-md border border-solid border-[#cccccc] bg-[#f2f2f7] bg-[16px_center] bg-no-repeat py-3 pl-11 pr-4 text-sm font-bold text-[#333333] [background-size:18px] [border-bottom:1px_solid_rgb(215,_215,_221)]"
                 placeholder="Search"
@@ -72,7 +55,7 @@ onMounted(()=>{
                   <template v-for="category, index in c.categories" v-bind:key="index" >
                     <button type="button" class="flex gap-3 rounded-md bg-[#f2f2f7] p-3 font-semibold" :class="filters.category === category.id ? 'bg-red-500': ''"
                     @click="()=>{ 
-                      filters.category = category.id 
+                      filters.queries.categoryId = category.id 
                       search()
                       }">
                     <img

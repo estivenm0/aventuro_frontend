@@ -63,7 +63,7 @@ const handleSubmit = ()=>{
         </div>
       </form>
       <footer v-if="type === 'Login'">
-        <a class="float-right text-sm text-indigo-700 hover:text-pink-700" href="#">Create Account</a>
+        <RouterLink class="float-right text-sm text-indigo-700 hover:text-pink-700" to="/register">Create Account</RouterLink>
       </footer>
     </div>
   </section>

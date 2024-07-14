@@ -41,7 +41,7 @@ const handleSubmit = async ()=>{
     booking.quantity = count;
     try{
         await client.post('/api/v1/bookings', booking);
-        toast.success('create booking')
+        toast.success('Booking Created')
         r.push('/bookings')
     }catch(error){
         if(error.response.status === 422){

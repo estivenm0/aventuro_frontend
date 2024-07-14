@@ -2,8 +2,9 @@
 import PaginationC from '@/components/common/PaginationC.vue';
 import PackageItem from '@/components/items/PackageItem.vue'
 import FilterP from '@/components/layouts/FilterP.vue';
+import { useFilterStore } from '@/stores/filter';
 import client from '@/utils/client';
-import { reactive, watch } from 'vue';
+import { onMounted, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const packages = reactive({
@@ -13,22 +14,24 @@ const packages = reactive({
 })
 
 const route = useRoute()
-
+const filter = useFilterStore()
 
 watch(() => route.query, async (query) => {
-  console.log(query)
   let res = await client.get('/api/v1/packages', {
     params: {
       page: query.page ? query.page : 1,
-      'title[eq]': query.q,
+      // 'title[eq]': query.q,
       'categoryId[eq]': query.categoryId,
+      q: query.q
     }
   });
   Object.assign(packages, res.data);
-  console.log(packages)
 
 }, { immediate: true })
 
+onMounted(()=>{
+  filter.queries.page= 1; 
+})
 
 </script>
 
