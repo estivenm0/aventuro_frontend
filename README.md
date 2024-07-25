@@ -5,7 +5,7 @@ Aventuro is a travel agency web application that allows users to explore various
 ## Backend:
 ### [Backend Repository](https://github.com/stivenm0/aventuro_backend.git)
 
-Video: [Watch Video](https://youtu.be/8wZqrtXeqaA)
+Video: [Watch Video](https://youtu.be/gSUW1SWNJuk?si=VmcKAuGltvgrbWJW)
 
 ## Content
 
