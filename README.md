@@ -1,35 +1,60 @@
-# aventuro_frontend
+# Aventuro 
 
-This template should help get you started developing with Vue 3 in Vite.
+Aventuro is a travel agency web application that allows users to explore various travel packages, make reservations, and manage their accounts efficiently. Designed with user experience in mind, Aventuro offers a range of functionalities to ensure a smooth and enjoyable booking process
 
-## Recommended IDE Setup
+## Backend:
+### [Backend Repository](https://github.com/stivenm0/aventuro_backend.git)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Video: [Watch Video](https://youtu.be/8wZqrtXeqaA)
 
-## Customize configuration
+## Content
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+* [Screenshots](#screenshots)
+* [Installation](#installation)
+* [Technologies](#technologies)
 
-## Project Setup
+## Screenshots
+![Home](https://raw.githubusercontent.com/stivenm0/aventuro_frontend/main/public/docs/home.png)
+![packages](https://raw.githubusercontent.com/stivenm0/aventuro_frontend/main/public/docs/packages.png)
+![package](https://raw.githubusercontent.com/stivenm0/aventuro_frontend/main/public/docs/package.png)
+![bookings](https://raw.githubusercontent.com/stivenm0/aventuro_frontend/main/public/docs/bookings.png)
+![booking](https://raw.githubusercontent.com/stivenm0/aventuro_frontend/main/public/docs/booking.png)
 
-```sh
-npm install
-```
 
-### Compile and Hot-Reload for Development
+## Installation
+Here is how you can run the project locally:
 
-```sh
-npm run dev
-```
+1. Clone the repository
+    ```sh
+    git clone https://github.com/stivenm0/aventuro_frontend.git
+    ```
 
-### Compile and Minify for Production
+2. Navigate to the project's root directory
+    ```sh
+    cd aventuro_frontend
+    ```
 
-```sh
-npm run build
-```
+3. Install dependencies
 
-### Lint with [ESLint](https://eslint.org/)
+    ```sh
+    npm install
+    ```
 
-```sh
-npm run lint
-```
+4. Compile and Hot-Reload for Development
+
+    ```sh
+    npm run dev
+    ```
+
+5. Compile and Minify for Production
+
+    ```sh
+    npm run build
+
+## Technologies
+
+* Vue 3
+* TailwindCSS 
+* Pinia
+
+
